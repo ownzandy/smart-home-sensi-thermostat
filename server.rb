@@ -42,7 +42,7 @@ end
 
 get '/mode' do
   thermostat = create_thermostat
-  thermostat.active_mode
+  "The current mode is #{thermostat.system_mode}"
 end
 
 get '/fan_on' do
@@ -56,9 +56,9 @@ get '/fan_on' do
   end
 end
 
-get '/fan_auto' do
+get '/fan_off' do
   thermostat = create_thermostat
-  success = thermostat.set(fan: 'on')
+  success = thermostat.set(fan: 'auto')
   thermostat.disconnect
   if success
     'Succesfully set fan to auto'
@@ -78,7 +78,7 @@ end
 
 get '/temp' do
   thermostat = create_thermostat
-  thermostat.system_temperature.to_s
+  "The current temperature is #{thermostat.system_temperature.to_s}"
 end 
 
 get '/temp_set' do
