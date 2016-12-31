@@ -76,3 +76,17 @@ get '/fan' do
   end
 end 
 
+get '/temp' do
+  thermostat = create_thermostat
+  thermostat.system_temperature.to_s
+end 
+
+get '/temp_set' do
+  thermostat = create_thermostat
+  success = thermostat.set(temp: params[:temp])
+  if success 
+    "Successfully set temperature to #{params[:temp]} degrees Fahrenheit"
+  else
+  	'Failed to set temperature'
+  end
+end
