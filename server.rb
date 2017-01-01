@@ -52,7 +52,6 @@ get '/status' do
   if !thermostat.system_fan_on?
     status += ' auto'
   end
-  status += '. What would you like to do?'
   status
 end
 
