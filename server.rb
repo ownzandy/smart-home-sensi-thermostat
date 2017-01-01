@@ -112,6 +112,9 @@ get '/fan_off' do
 end
 
 get '/temp_set' do
+  if params[:temp] < 50 || params[:temp] > 90
+    return 'Please select a range between 50 and 90'
+  end
   if thermostat.system_mode == 'Off'
     return 'Thermostat is off'
   end
