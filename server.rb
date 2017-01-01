@@ -112,6 +112,9 @@ get '/fan_off' do
 end
 
 get '/temp_set' do
+  if thermostat.system_mode == 'Off'
+    return 'Thermostat is off'
+  end
   success = thermostat.set(temp: params[:temp])
   if success 
     "Successfully set temperature to #{params[:temp]} degrees"
