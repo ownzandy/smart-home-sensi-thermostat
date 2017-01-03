@@ -1,8 +1,12 @@
 require 'sinatra'
 require 'sensi'
 
-thermostat = Sensi::Thermostat.new(ENV['EMAIL'], ENV['PASSWORD'])
+thermostat = Sensi::Thermostat.new(ENV['USER'], ENV['PASSWORD'])
 thermostat.connect
+
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == ENV['USER'] and password == ENV['PASSWORD']
+end
 
 def string_rep_of_time(string)
   portions = string.split(':')
@@ -36,7 +40,7 @@ def string_rep_of_time(string)
 end
 
 get '/status' do
-  thermostat = Sensi::Thermostat.new(ENV['EMAIL'], ENV['PASSWORD'])
+  thermostat = Sensi::Thermostat.new(ENV['USER'], ENV['PASSWORD'])
   thermostat.connect
   status = "The room is currently #{thermostat.temperature} degrees with a humidity of #{thermostat.humidity}. "
   if thermostat.active_mode != 'Off'
